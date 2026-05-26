@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HOSTELCARE</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+<div id="loginBox" class="box">
+  <h2>HOSTELCARE LOGIN</h2>
+
+  <select id="role">
+    <option value="student">Student</option>
+    <option value="warden">Warden</option>
+    <option value="technician">Technician</option>
+  </select>
+
+  <input id="username" placeholder="Username">
+  <input id="password" type="password" placeholder="Password">
+
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- ================= STUDENT DASHBOARD ================= -->
+<div id="studentDash" class="hidden">
+
+  <h2>Student Dashboard</h2>
+
+  <input id="title" placeholder="Complaint Title">
+  <input id="desc" placeholder="Description">
+  <input id="category" placeholder="Category (plumbing/food/electrical/general)">
+  <input id="location" placeholder="Location">
+
+  <label>
+    <input type="checkbox" id="anonymous"> Anonymous
+  </label>
+
+  <label>
+    <input type="checkbox" id="urgent"> Urgent 🔥
+  </label>
+
+  <button onclick="submitComplaint()">Submit Complaint</button>
+
+  <h3>My Complaints</h3>
+  <div id="studentComplaints"></div>
+
+  <h3>Notifications</h3>
+  <div id="studentNotifications"></div>
+</div>
+
+<!-- ================= WARDEN DASHBOARD ================= -->
+<div id="wardenDash" class="hidden">
+
+  <h2>Warden Dashboard</h2>
+
+  <h3>Complaints</h3>
+  <div id="wardenComplaints"></div>
+
+  <h3>Analytics</h3>
+  <div id="analyticsBox"></div>
+</div>
+
+<!-- ================= TECHNICIAN DASHBOARD ================= -->
+<div id="techDash" class="hidden">
+
+  <h2>Technician Dashboard</h2>
+
+  <div id="techComplaints"></div>
+
+  <h3>Notifications</h3>
+  <div id="techNotifications"></div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
