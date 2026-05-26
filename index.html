@@ -8,30 +8,62 @@
 
 <body>
 
-<!-- ================= LOGIN ================= -->
+<!-- ================= AUTH BOX ================= -->
 <div id="loginBox" class="box">
-  <h2>HOSTELCARE LOGIN</h2>
+  <h2>HOSTELCARE</h2>
 
-  <select id="role">
-    <option value="student">Student</option>
-    <option value="warden">Warden</option>
-    <option value="technician">Technician</option>
-  </select>
+  <!-- LOGIN FORM -->
+  <div id="loginForm">
+    <h3>LOGIN</h3>
 
-  <input id="username" placeholder="Username">
-  <input id="password" type="password" placeholder="Password">
+    <select id="role">
+      <option value="student">Student</option>
+      <option value="warden">Warden</option>
+      <option value="technician">Technician</option>
+    </select>
 
-  <button onclick="login()">Login</button>
+    <input id="username" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+    
+    <p style="text-align: center; margin-top: 10px;">
+      <button id="signupToggle" onclick="toggleAuthMode()" style="background: none; border: none; color: #007bff; cursor: pointer; text-decoration: underline;">
+        Don't have an account? Sign up
+      </button>
+    </p>
+  </div>
+
+  <!-- SIGNUP FORM (STUDENT ONLY) -->
+  <div id="signupForm" class="hidden">
+    <h3>STUDENT SIGN UP</h3>
+
+    <input id="signupStudentId" placeholder="Student ID (e.g., 1MS22CS001)">
+    <input id="signupName" placeholder="Full Name">
+    <input id="signupPassword" type="password" placeholder="Password">
+    <input id="signupConfirmPassword" type="password" placeholder="Confirm Password">
+
+    <button onclick="signupStudent()">Sign Up</button>
+    
+    <p style="text-align: center; margin-top: 10px;">
+      <button id="loginToggle" onclick="toggleAuthMode()" style="background: none; border: none; color: #007bff; cursor: pointer; text-decoration: underline;">
+        Already have an account? Login
+      </button>
+    </p>
+  </div>
 </div>
 
 <!-- ================= STUDENT DASHBOARD ================= -->
 <div id="studentDash" class="hidden">
 
-  <h2>Student Dashboard</h2>
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Student Dashboard</h2>
+    <button onclick="logout()" style="padding: 8px 16px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
+  </div>
 
   <input id="title" placeholder="Complaint Title">
   <input id="desc" placeholder="Description">
-  <input id="category" placeholder="Category (plumbing/food/electrical/general)">
+  <input id="category" placeholder="Category (plumbing/food/electrical/general/cleaning)">
   <input id="location" placeholder="Location">
 
   <label>
@@ -54,7 +86,10 @@
 <!-- ================= WARDEN DASHBOARD ================= -->
 <div id="wardenDash" class="hidden">
 
-  <h2>Warden Dashboard</h2>
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Warden Dashboard</h2>
+    <button onclick="logout()" style="padding: 8px 16px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
+  </div>
 
   <h3>Complaints</h3>
   <div id="wardenComplaints"></div>
@@ -66,7 +101,10 @@
 <!-- ================= TECHNICIAN DASHBOARD ================= -->
 <div id="techDash" class="hidden">
 
-  <h2>Technician Dashboard</h2>
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Technician Dashboard</h2>
+    <button onclick="logout()" style="padding: 8px 16px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
+  </div>
 
   <div id="techComplaints"></div>
 
