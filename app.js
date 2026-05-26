@@ -19,20 +19,56 @@ let state = {
     }
   },
 
-  wardenPasswords: {
-    warden: "admin123"
+  wardenAccounts: {
+    "pass123": {
+      name: "Warden",
+      password: "warden123",
+      role: "warden"
+    }
   },
 
-  techPasswords: {},
+  techAccounts: {
+    "Ramesh": {
+      name: "Ramesh",
+      password: "tech123",
+      role: "technician",
+      category: "plumbing"
+    },
+    "Vikram": {
+      name: "Vikram",
+      password: "tech123",
+      role: "technician",
+      category: "general"
+    },
+    "Meera": {
+      name: "Meera",
+      password: "tech123",
+      role: "technician",
+      category: "food"
+    },
+    "Suresh": {
+      name: "Suresh",
+      password: "tech123",
+      role: "technician",
+      category: "electrical"
+    },
+    "Ganesan": {
+      name: "Ganesan",
+      password: "tech123",
+      role: "technician",
+      category: "cleaning"
+    }
+  },
 
   notifications: [],
 
   technicians: {
-    plumbing: "Tech_Plumbing",
-    food: "Tech_Food",
-    electrical: "Tech_Electrical",
-    general: "Tech_General",
-    other: "Tech_Other"
+    plumbing: "Ramesh",
+    food: "Meera",
+    electrical: "Suresh",
+    general: "Vikram",
+    cleaning: "Ganesan",
+    other: "Vikram"
   }
 };
 
@@ -92,16 +128,87 @@ function assignTechnician(category) {
 
 
 // ==========================
+// TOGGLE LOGIN/SIGNUP
+// ==========================
+
+function toggleAuthMode() {
+  let loginForm = document.getElementById("loginForm");
+  let signupForm = document.getElementById("signupForm");
+  let signupToggle = document.getElementById("signupToggle");
+
+  if (loginForm.classList.contains("hidden")) {
+    loginForm.classList.remove("hidden");
+    signupForm.classList.add("hidden");
+    signupToggle.textContent = "Don't have an account? Sign up";
+  } else {
+    loginForm.classList.add("hidden");
+    signupForm.classList.remove("hidden");
+    signupToggle.textContent = "Already have an account? Login";
+  }
+}
+
+
+// ==========================
+// STUDENT SIGNUP
+// ==========================
+
+function signupStudent() {
+  let studentId = document.getElementById("signupStudentId").value.toUpperCase().trim();
+  let name = document.getElementById("signupName").value.trim();
+  let password = document.getElementById("signupPassword").value;
+  let confirmPassword = document.getElementById("signupConfirmPassword").value;
+
+  // Validation
+  if (!studentId || !name || !password || !confirmPassword) {
+    alert("All fields are required");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  if (password.length < 4) {
+    alert("Password must be at least 4 characters");
+    return;
+  }
+
+  if (state.accounts[studentId]) {
+    alert("Student ID already exists");
+    return;
+  }
+
+  // Create account
+  state.accounts[studentId] = {
+    name: name,
+    password: password,
+    role: "student"
+  };
+
+  alert("Account created successfully! You can now login.");
+  toggleAuthMode();
+
+  // Clear signup form
+  document.getElementById("signupStudentId").value = "";
+  document.getElementById("signupName").value = "";
+  document.getElementById("signupPassword").value = "";
+  document.getElementById("signupConfirmPassword").value = "";
+}
+
+
+// ==========================
 // LOGIN
 // ==========================
 
 function login() {
   let role = document.getElementById("role").value;
-  let user = document.getElementById("username").value.toUpperCase();
+  let user = document.getElementById("username").value;
   let pass = document.getElementById("password").value;
 
   if (role === "student") {
-    let acc = state.accounts[user];
+    let studentId = user.toUpperCase();
+    let acc = state.accounts[studentId];
 
     if (!acc || acc.password !== pass) {
       alert("Invalid student login");
@@ -113,7 +220,9 @@ function login() {
   }
 
   else if (role === "warden") {
-    if (state.wardenPasswords[user] !== pass) {
+    let wardenAcc = state.wardenAccounts[user];
+
+    if (!wardenAcc || wardenAcc.password !== pass) {
       alert("Invalid warden login");
       return;
     }
@@ -123,9 +232,9 @@ function login() {
   }
 
   else if (role === "technician") {
-    let stored = state.techPasswords[user] || "tech123";
+    let techAcc = state.techAccounts[user];
 
-    if (stored !== pass) {
+    if (!techAcc || techAcc.password !== pass) {
       alert("Invalid technician login");
       return;
     }
@@ -133,6 +242,26 @@ function login() {
     state.session = { role: "technician", name: user };
     showDashboard("technician");
   }
+}
+
+
+// ==========================
+// LOGOUT
+// ==========================
+
+function logout() {
+  state.session = null;
+  document.getElementById("loginBox").classList.remove("hidden");
+  document.getElementById("studentDash").classList.add("hidden");
+  document.getElementById("wardenDash").classList.add("hidden");
+  document.getElementById("techDash").classList.add("hidden");
+  document.getElementById("loginForm").classList.remove("hidden");
+  document.getElementById("signupForm").classList.add("hidden");
+
+  // Clear form
+  document.getElementById("role").value = "student";
+  document.getElementById("username").value = "";
+  document.getElementById("password").value = "";
 }
 
 
